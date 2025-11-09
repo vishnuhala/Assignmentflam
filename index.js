@@ -1,15 +1,10 @@
 // Vercel entry point
-import express from 'express';
-import http from 'http';
-import { Server } from 'socket.io';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-import { RoomManager } from './server/rooms.js';
-import { DrawingState } from './server/drawing-state.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const express = require('express');
+const http = require('http');
+const socketIo = require('socket.io');
+const path = require('path');
+const { RoomManager } = require('./server/rooms.js');
+const { DrawingState } = require('./server/drawing-state.js');
 
 // Initialize Express app
 const app = express();
@@ -22,7 +17,7 @@ app.use((req, res, next) => {
 });
 
 // Configure Socket.IO with proper settings for Vercel
-const io = new Server(server, {
+const io = socketIo(server, {
   cors: {
     origin: "*",
     methods: ["GET", "POST"],
@@ -35,8 +30,7 @@ const io = new Server(server, {
 });
 
 // Serve static files from the client directory
-app.use('/', express.static(path.join(__dirname, 'client')));
-app.use('/client', express.static(path.join(__dirname, 'client')));
+app.use(express.static(path.join(__dirname, 'client')));
 
 // Serve index.html for the root route
 app.get('/', (req, res) => {

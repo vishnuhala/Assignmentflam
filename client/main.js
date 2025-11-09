@@ -243,18 +243,6 @@ function setupWebSocketHandlers() {
         statusElement.textContent = 'A user left the session';
     });
     
-    // Connection error handling
-    wsClient.on('connect_error', (error) => {
-        console.error('WebSocket connection error:', error);
-        statusElement.textContent = `Connection error: ${error.message}. Retrying...`;
-    });
-    
-    // Disconnection handling
-    wsClient.on('disconnect', (reason) => {
-        console.log('WebSocket disconnected:', reason);
-        statusElement.textContent = `Disconnected: ${reason}. Attempting to reconnect...`;
-    });
-    
     // Receive drawing data from other users
     wsClient.on('draw-path', (pathData) => {
         console.log('Received draw-path:', pathData);

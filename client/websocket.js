@@ -1,33 +1,18 @@
 // WebSocket client for collaborative canvas
 export class WebSocketClient {
     constructor(url) {
-        // Detect if we're running on Vercel or localhost
-        const isVercel = window.location.hostname.includes('vercel.app');
-        
-        // Configure Socket.IO connection options
-        const options = {
+        // For Vercel deployment, let Socket.IO handle the connection automatically
+        // without specifying a URL, it will connect to the same origin
+        this.socket = io({
             transports: ['websocket', 'polling'], // Try WebSocket first, then polling
             upgrade: true,
-            rememberUpgrade: true, // Remember the transport upgrade
             rejectUnauthorized: false, // Allow self-signed certificates
             reconnection: true,
             reconnectionAttempts: 5,
             reconnectionDelay: 1000,
             reconnectionDelayMax: 5000,
-            randomizationFactor: 0.5,
-            timeout: 20000, // Increase timeout for Vercel
-            path: '/socket.io' // Explicitly set the path
-        };
-        
-        // For Vercel deployment, we need to handle the connection differently
-        if (isVercel) {
-            // On Vercel, connect to the same origin without specifying a URL
-            this.socket = io(options);
-        } else {
-            // On localhost, we can use the default connection
-            this.socket = io(options);
-        }
-        
+            randomizationFactor: 0.5
+        });
         this.listeners = {};
     }
 
