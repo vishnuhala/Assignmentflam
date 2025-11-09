@@ -217,6 +217,9 @@ module.exports = (req, res) => {
     return app(req, res);
 };
 
+// Export the server instance for Vercel
+module.exports.server = server;
+
 // Start server locally if not in Vercel environment
 if (!process.env.NOW_REGION) {
     const PORT = process.env.PORT || 3000;
