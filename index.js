@@ -26,7 +26,9 @@ const io = socketIo(server, {
   allowEIO3: true, // Allow Engine.IO v3 clients
   transports: ["websocket", "polling"], // Try WebSocket first, then polling
   upgrade: true,
-  cookie: false // Disable cookie for Vercel compatibility
+  cookie: false, // Disable cookie for Vercel compatibility
+  path: '/socket.io', // Explicitly set the path
+  serveClient: true
 });
 
 // Serve static files from the client directory
@@ -221,7 +223,7 @@ module.exports = (req, res) => {
 module.exports.server = server;
 
 // Start server locally if not in Vercel environment
-if (!process.env.NOW_REGION) {
+if (!process.env.VERCEL_ENV) {
     const PORT = process.env.PORT || 3000;
     server.listen(PORT, () => {
         console.log(`Server is running on port ${PORT}`);

@@ -8,12 +8,14 @@ export class WebSocketClient {
         const options = {
             transports: ['websocket', 'polling'], // Try WebSocket first, then polling
             upgrade: true,
+            rememberUpgrade: true, // Remember the transport upgrade
             rejectUnauthorized: false, // Allow self-signed certificates
             reconnection: true,
             reconnectionAttempts: 5,
             reconnectionDelay: 1000,
             reconnectionDelayMax: 5000,
             randomizationFactor: 0.5,
+            timeout: 20000, // Increase timeout for Vercel
             path: '/socket.io' // Explicitly set the path
         };
         
