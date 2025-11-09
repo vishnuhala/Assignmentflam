@@ -243,12 +243,6 @@ function setupWebSocketHandlers() {
         statusElement.textContent = 'A user left the session';
     });
     
-    // Connection confirmed
-    wsClient.on('connection-confirmed', (data) => {
-        console.log('Connection confirmed:', data);
-        statusElement.textContent = 'Connected to server! Draw something...';
-    });
-    
     // Connection error handling
     wsClient.on('connect_error', (error) => {
         console.error('WebSocket connection error:', error);
