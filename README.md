@@ -24,10 +24,16 @@ A real-time collaborative drawing application where multiple users can draw simu
    npm install
    ```
 
-3. Start the server:
+3. Start the server (use one of these methods):
+   
+   Method 1 (Direct node execution):
    ```
-   npm start
+   node server/server.js
    ```
+   
+   Method 2 (If npm scripts work in your environment):
+   ```
+   npm run start
 
 4. Open your browser and navigate to `http://localhost:3000`
 
@@ -75,25 +81,6 @@ collaborative-canvas/
 3. No authentication or user accounts
 4. Limited conflict resolution for simultaneous drawing in the same area
 
-## Time Spent
 
-Approximately 8-10 hours were spent on this implementation, including:
-- Planning and architecture design
-- Frontend implementation
-- Backend implementation
-- Testing and debugging
-- Documentation
-
-## Deployment
-
-To deploy this application:
-
-1. Push to a hosting service like Heroku, Vercel, or AWS
-2. Set the appropriate environment variables
-3. Ensure the PORT environment variable is respected
-
-Example for Heroku:
-```
-heroku create
 git push heroku main
 ```
