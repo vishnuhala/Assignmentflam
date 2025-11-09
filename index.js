@@ -1,10 +1,15 @@
 // Vercel entry point
-const express = require('express');
-const http = require('http');
-const socketIo = require('socket.io');
-const path = require('path');
-const { RoomManager } = require('./server/rooms.js');
-const { DrawingState } = require('./server/drawing-state.js');
+import express from 'express';
+import http from 'http';
+import { Server } from 'socket.io';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import { RoomManager } from './server/rooms.js';
+import { DrawingState } from './server/drawing-state.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Initialize Express app
 const app = express();
@@ -17,7 +22,7 @@ app.use((req, res, next) => {
 });
 
 // Configure Socket.IO with proper settings for Vercel
-const io = socketIo(server, {
+const io = new Server(server, {
   cors: {
     origin: "*",
     methods: ["GET", "POST"],
@@ -26,13 +31,10 @@ const io = socketIo(server, {
   allowEIO3: true, // Allow Engine.IO v3 clients
   transports: ["websocket", "polling"], // Try WebSocket first, then polling
   upgrade: true,
-  cookie: false, // Disable cookie for Vercel compatibility
-  path: '/socket.io', // Explicitly set the path
-  serveClient: true
+  cookie: false // Disable cookie for Vercel compatibility
 });
 
 // Serve static files from the client directory
-app.use('/client', express.static(path.join(__dirname, 'client')));
 app.use(express.static(path.join(__dirname, 'client')));
 
 // Serve index.html for the root route
@@ -220,11 +222,8 @@ module.exports = (req, res) => {
     return app(req, res);
 };
 
-// Export the server instance for Vercel
-module.exports.server = server;
-
 // Start server locally if not in Vercel environment
-if (!process.env.VERCEL_ENV) {
+if (!process.env.NOW_REGION) {
     const PORT = process.env.PORT || 3000;
     server.listen(PORT, () => {
         console.log(`Server is running on port ${PORT}`);
