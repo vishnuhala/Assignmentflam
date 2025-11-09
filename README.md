@@ -82,5 +82,5 @@ collaborative-canvas/
 4. Limited conflict resolution for simultaneous drawing in the same area
 
 
-git push heroku main
+
 ```
