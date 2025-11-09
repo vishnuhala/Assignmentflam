@@ -35,7 +35,8 @@ const io = new Server(server, {
 });
 
 // Serve static files from the client directory
-app.use(express.static(path.join(__dirname, 'client')));
+app.use('/', express.static(path.join(__dirname, 'client')));
+app.use('/client', express.static(path.join(__dirname, 'client')));
 
 // Serve index.html for the root route
 app.get('/', (req, res) => {
